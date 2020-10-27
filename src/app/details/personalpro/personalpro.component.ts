@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
-import {MessageService} from 'primeng/api';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-personalpro',
@@ -24,11 +24,18 @@ export class PersonalproComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    this.infoForm = this.formBuilder.group({
-      firstName: [this.authenticationService.currentUserValue.firstName, Validators.required],
-      lastName: [this.authenticationService.currentUserValue.lastName, Validators.required]
-    });
     this.detailPageName = this.route.snapshot.routeConfig.path;
+    if (this.detailPageName === 'personal') {
+      this.infoForm = this.formBuilder.group({
+        firstName: [this.authenticationService.currentUserValue.firstName, Validators.required],
+        lastName: [this.authenticationService.currentUserValue.lastName, Validators.required]
+      });
+    } else if(this.detailPageName === 'professional') {
+      this.infoForm = this.formBuilder.group({
+        experience: [this.authenticationService.currentUserValue.experience, Validators.required]
+      });
+    }
+
   }
 
   get form() { return this.infoForm.controls; }
@@ -42,19 +49,19 @@ export class PersonalproComponent implements OnInit {
     this.loading = true;
     this.userService.updateDetails(this.infoForm.value).subscribe(
       data => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Data updated successfully'});
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Data updated successfully' });
         this.loading = false;
         this.onCancel();
       },
       error => {
         console.log(error);
-        this.messageService.add({severity:'info', detail:error.error.message});
+        this.messageService.add({ severity: 'info', detail: error.error.message });
         this.loading = false;
       }
     );
   }
 
-  onCancel(){
+  onCancel() {
     this.submitted = false;
     this.infoForm.reset()
 
