@@ -54,7 +54,6 @@ export class PersonalproComponent implements OnInit {
         this.onCancel();
       },
       error => {
-        console.log(error);
         this.messageService.add({ severity: 'info', detail: error.error.message });
         this.loading = false;
       }

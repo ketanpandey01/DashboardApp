@@ -20,21 +20,8 @@ export class DetailsComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
-    // this.router.navigateByUrl('/personal');  
-    // console.log(localStorage.getItem('users'));
-    // console.log(localStorage.getItem('currentUser'));
-    // localStorage.removeItem('currentUser');
-    // localStorage.removeItem('users');
-    // this.currentUserSubject.next(null);
-    // console.log('Inside details');
-    // console.log('All users', localStorage.getItem('users'));
-    // console.log('')
     this.subscription = this.authenticationService.currentUser.subscribe(x => this.currentUser = x);
     this.selectedInfo = 'personal';
-    // console.log('Current logged in user', this.currentUser);
-    // this.firstName = this.currentUser.firstName;
-    // this.lastName = this.currentUser.lastName;
-    // console.log(this.authenticationService.currentUserValue);
   }
 
   getDetails(detail) {
