@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand navbar-dark bg-dark" *ngIf="currentUser">
+    <div class="navbar-nav">
+        <a class="nav-item nav-link"  style="cursor: pointer;" (click)="logout()">Logout</a>
+    </div>
+</nav>
+<div class="p-grid" style="height: 100%;">
+    <div class="p-col-fixed" style="width:20%">
+        <p-card>
+            <div class='nameClass'>Hello, {{currentUser.firstName}} {{currentUser.lastName}}</div>
+            <hr>
+            <div style="height: 40px;"></div>
+            <hr>
+            <div class='infoClass' (click)="getDetails('personal')"
+                [style.background-color]="selectedInfo==='personal' ? 'gainsboro' : null">Personal Info</div>
+            <hr>
+            <div class='infoClass' (click)="getDetails('pro')" [style.background-color]="selectedInfo==='pro' ? 'gainsboro' : null">Professional Info</div>
+            <hr>
+        </p-card>
+    </div>
+    <div class="p-col">
+        <p-card>
+            <div>
+                <router-outlet></router-outlet>
+            </div>
+        </p-card>
+    </div>
+</div>
