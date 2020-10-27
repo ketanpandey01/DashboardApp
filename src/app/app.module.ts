@@ -7,7 +7,6 @@ import { LoginComponent } from './login/login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RegisterComponent } from './register/register.component';
 import { DetailsComponent } from './details/details.component';
-import { AlertComponent } from './alert/alert.component';
 import { PersonalproComponent } from './details/personalpro/personalpro.component';
 import {CardModule} from 'primeng/card';
 import {ToastModule} from 'primeng/toast';
@@ -20,7 +19,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginComponent,
     RegisterComponent,
     DetailsComponent,
-    AlertComponent,
     PersonalproComponent
   ],
   imports: [

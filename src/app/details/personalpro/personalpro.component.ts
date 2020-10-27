@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AlertService } from 'src/app/services/alert.service';
 import { AuthenticationService } from 'src/app/services/authentication.service';
 import { UserService } from 'src/app/services/user.service';
 import {MessageService} from 'primeng/api';
@@ -21,13 +20,13 @@ export class PersonalproComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private userService: UserService,
-    private alertService: AlertService,
-    private messageService: MessageService) { }
+    private messageService: MessageService,
+    private authenticationService: AuthenticationService) { }
 
   ngOnInit(): void {
     this.infoForm = this.formBuilder.group({
-      firstName: ['', Validators.required],
-      lastName: ['', Validators.required]
+      firstName: [this.authenticationService.currentUserValue.firstName, Validators.required],
+      lastName: [this.authenticationService.currentUserValue.lastName, Validators.required]
     });
     this.detailPageName = this.route.snapshot.routeConfig.path;
   }
@@ -36,8 +35,6 @@ export class PersonalproComponent implements OnInit {
 
   onUpdate() {
     this.submitted = true;
-    // reset alerts on submit
-    this.alertService.clear();
     // stop here if form is invalid
     if (this.infoForm.invalid) {
       return;
@@ -45,7 +42,7 @@ export class PersonalproComponent implements OnInit {
     this.loading = true;
     this.userService.updateDetails(this.infoForm.value).subscribe(
       data => {
-        this.messageService.add({severity:'success', summary:'Success', detail:'Data update successfully'});
+        this.messageService.add({severity:'success', summary:'Success', detail:'Data updated successfully'});
         this.loading = false;
         this.onCancel();
       },
@@ -53,7 +50,6 @@ export class PersonalproComponent implements OnInit {
         console.log(error);
         this.messageService.add({severity:'info', detail:error.error.message});
         this.loading = false;
-        this.onCancel();
       }
     );
   }

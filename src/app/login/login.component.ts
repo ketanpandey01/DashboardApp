@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
@@ -19,7 +18,6 @@ export class LoginComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private authenticationService: AuthenticationService,
-    private alertService: AlertService,
     private router: Router,
     private route: ActivatedRoute,
     private messageService: MessageService) {
@@ -43,8 +41,6 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    // reset alerts on submit
-    this.alertService.clear()
     console.log(this.loginForm.value);
     // stop here if form is invalid
     if (this.loginForm.invalid) {

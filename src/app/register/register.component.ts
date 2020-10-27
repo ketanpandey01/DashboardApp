@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MessageService } from 'primeng/api';
-import { AlertService } from '../services/alert.service';
 import { AuthenticationService } from '../services/authentication.service';
 import { UserService } from '../services/user.service';
 
@@ -21,7 +20,6 @@ export class RegisterComponent implements OnInit {
     private userService: UserService,
     private router: Router,
     private formBuilder: FormBuilder,
-    private alertService: AlertService,
     private messageService: MessageService) {
     // redirect to home if already logged in
     if (this.authenticationService.currentUserValue) {
@@ -40,13 +38,10 @@ export class RegisterComponent implements OnInit {
 
   // convenience getter for easy access to form fields
   get form() { 
-    console.log(this.registerForm.controls);
     return this.registerForm.controls; }
 
   onRegister() {
     this.submitted = true;
-    // reset alerts on submit
-    this.alertService.clear();
     // stop here if form is invalid
     if (this.registerForm.invalid) {
       return;
@@ -56,7 +51,7 @@ export class RegisterComponent implements OnInit {
     this.userService.register(this.registerForm.value).subscribe(
       data => {
         this.messageService.add({severity:'success', detail: "Registration successful"});
-        this.router.navigateByUrl('/login');
+        setTimeout(()=>{ this.router.navigateByUrl('/login'); }, 3000)
       },
       error => {
         this.messageService.add({severity:'error', detail: error.error.message});

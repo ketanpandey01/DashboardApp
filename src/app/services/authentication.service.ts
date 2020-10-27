@@ -24,7 +24,7 @@ export class AuthenticationService {
   }
 
   login(username, password) {
-    console.log(this.users);
+    this.users = JSON.parse(localStorage.getItem('users')) || [];
     const user = this.users.find(x => x.username === username && x.password === password);
     if (!user) return this.error('Username or password is incorrect');
     localStorage.setItem('currentUser', JSON.stringify(user));
