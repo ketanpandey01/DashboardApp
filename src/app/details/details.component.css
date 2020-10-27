@@ -1,14 +1,4 @@
-/* .listClass{
-    list-style-type: none;
-} */
 
-/* .listClass li {
-    cursor: pointer;
-    left: 0;
-    margin: .5em;
-    height: 1.6em;
-    border: 1px solid black;
-} */
 
 hr {
     display: block;
@@ -43,10 +33,11 @@ hr {
     height: 100%;
 }
 
-/* :host >>> .p-col-fixed {
+:host >>> .p-col-fixed {
     padding: 0rem;
+    padding-top: 0.5rem;
 }
 
 :host >>> .p-col {
     padding: 0rem;
-} */
+}
