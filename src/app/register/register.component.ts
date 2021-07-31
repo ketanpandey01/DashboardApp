@@ -37,8 +37,9 @@ export class RegisterComponent implements OnInit {
   }
 
   // convenience getter for easy access to form fields
-  get form() { 
-    return this.registerForm.controls; }
+  get form() {
+    return this.registerForm.controls;
+  }
 
   onRegister() {
     this.submitted = true;
@@ -50,11 +51,22 @@ export class RegisterComponent implements OnInit {
 
     this.userService.register(this.registerForm.value).subscribe(
       data => {
-        this.messageService.add({severity:'success', detail: "Registration successful"});
-        setTimeout(()=>{ this.router.navigateByUrl('/login'); }, 3000)
+        console.log("dataa", data);
+        if (data['error']) {
+          this.messageService.add({ severity: 'error', detail: data['error'] });
+          this.loading = false;
+        } else {
+          let user = this.registerForm.value;
+          user["experience"] = 0;
+          let users = JSON.parse(localStorage.getItem("users")) || [];
+          users.push(user);
+          localStorage.setItem("users", JSON.stringify(users));
+          this.messageService.add({ severity: 'success', detail: "Registration successful" });
+          setTimeout(() => { this.router.navigateByUrl('/login'); }, 3000)
+        }
       },
       error => {
-        this.messageService.add({severity:'error', detail: error.error.message});
+        this.messageService.add({ severity: 'error', detail: error.error.message });
         this.loading = false;
       }
     );

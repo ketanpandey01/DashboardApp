@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 @Injectable({
   providedIn: 'root'
 })
@@ -10,9 +10,15 @@ export class AuthenticationService {
   public currentUser: Observable<any>;
   users = JSON.parse(localStorage.getItem('users')) || [];
 
-  constructor() {
-    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
-    this.currentUser = this.currentUserSubject.asObservable();
+  constructor(private http: HttpClient) {
+    let currentUserObj = localStorage.getItem('currentUser');
+    console.log('currnetUser', currentUserObj);
+    if(currentUserObj){
+      console.log('inside', currentUserObj);
+      this.currentUserSubject = new BehaviorSubject<any>(currentUserObj);
+      this.currentUser = this.currentUserSubject.asObservable();
+    }
+
   }
 
   public get currentUserValue() {
@@ -24,17 +30,21 @@ export class AuthenticationService {
   }
 
   login(username, password) {
-    this.users = JSON.parse(localStorage.getItem('users')) || [];
-    const user = this.users.find(x => x.username === username && x.password === password);
-    if (!user) return this.error('Username or password is incorrect');
-    localStorage.setItem('currentUser', JSON.stringify(user));
-    this.currentUserSubject.next(user);
-    var body = {
-      username: user.username,
-      firstName: user.firstName,
-      lastName: user.lastName
-    }
-    return of(new HttpResponse({ status: 200, body }))
+    const authData = { username: username, password: password };
+    return this.http.post("http://dashboardnodebackend-env.eba-wsndghtk.ap-south-1.elasticbeanstalk.com/api/user/login", authData);
+
+    // this.users = JSON.parse(localStorage.getItem('users')) || [];
+    // const user = this.users.find(x => x.username === username && x.password === password);
+    // if (!user) return this.error('Username or password is incorrect');
+
+    // localStorage.setItem('currentUser', JSON.stringify(user));
+    // this.currentUserSubject.next(user);
+    // var body = {
+    //   username: user.username,
+    //   firstName: user.firstName,
+    //   lastName: user.lastName
+    // }
+    // return of(new HttpResponse({ status: 200, body }))
   }
 
   logout() {

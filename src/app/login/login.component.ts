@@ -48,10 +48,21 @@ export class LoginComponent implements OnInit {
     this.loading = true;
     this.authenticationService.login(this.form.username.value, this.form.password.value).subscribe(
       data => {
-        this.router.navigateByUrl('/details/personal');
+        console.log("login data", data);
+        if (data['error']) {
+          this.messageService.add({ severity: 'error', detail: 'Username or password is incorrect' });
+          this.loading = false;
+        } else {
+          let users = JSON.parse(localStorage.getItem('users')) || [];
+          const user = users.find(x => x.username === this.form.username.value && x.password === this.form.password.value);
+
+          localStorage.setItem('currentUser', JSON.stringify(user));
+          this.authenticationService.setUserSubject(user);
+          this.router.navigateByUrl('/details/personal');
+        }
       },
       error => {
-        this.messageService.add({severity:'error', detail: error.error.message});
+        this.messageService.add({ severity: 'error', detail: error.error.message });
         this.loading = false;
       }
     );
