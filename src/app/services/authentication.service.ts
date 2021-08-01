@@ -1,24 +1,20 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, throwError } from 'rxjs';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { Injectable } from "@angular/core";
+import { BehaviorSubject, Observable, of, throwError } from "rxjs";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthenticationService {
-
   private currentUserSubject: BehaviorSubject<any>;
   public currentUser: Observable<any>;
-  users = JSON.parse(localStorage.getItem('users')) || [];
+  users = JSON.parse(localStorage.getItem("users")) || [];
 
   constructor(private http: HttpClient) {
-    let currentUserObj = localStorage.getItem('currentUser');
-    console.log('currnetUser', currentUserObj);
-    if(currentUserObj){
-      console.log('inside', currentUserObj);
-      this.currentUserSubject = new BehaviorSubject<any>(currentUserObj);
-      this.currentUser = this.currentUserSubject.asObservable();
-    }
-
+    // let currentUserObj = localStorage.getItem("currentUser");
+    // console.log("currnetUser", currentUserObj);
+    // if(currentUserObj===)
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
   public get currentUserValue() {
@@ -31,7 +27,10 @@ export class AuthenticationService {
 
   login(username, password) {
     const authData = { username: username, password: password };
-    return this.http.post("http://dashboardnodebackend-env.eba-wsndghtk.ap-south-1.elasticbeanstalk.com/api/user/login", authData);
+    return this.http.post(
+      "http://dashboardnodebackend-env.eba-wsndghtk.ap-south-1.elasticbeanstalk.com/api/user/login",
+      authData
+    );
 
     // this.users = JSON.parse(localStorage.getItem('users')) || [];
     // const user = this.users.find(x => x.username === username && x.password === password);
@@ -49,12 +48,11 @@ export class AuthenticationService {
 
   logout() {
     // remove user from local storage and set current user to null
-    localStorage.removeItem('currentUser');
+    localStorage.removeItem("currentUser");
     this.currentUserSubject.next(null);
   }
 
   error(message) {
     return throwError({ error: { message } });
   }
-
 }
