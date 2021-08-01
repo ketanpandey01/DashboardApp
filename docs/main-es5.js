@@ -2076,15 +2076,12 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         _classCallCheck(this, AuthenticationService);
 
         this.http = http;
-        this.users = JSON.parse(localStorage.getItem('users')) || [];
-        var currentUserObj = localStorage.getItem('currentUser');
-        console.log('currnetUser', currentUserObj);
+        this.users = JSON.parse(localStorage.getItem("users")) || []; // let currentUserObj = localStorage.getItem("currentUser");
+        // console.log("currnetUser", currentUserObj);
+        // if(currentUserObj===)
 
-        if (currentUserObj) {
-          console.log('inside', currentUserObj);
-          this.currentUserSubject = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](currentUserObj);
-          this.currentUser = this.currentUserSubject.asObservable();
-        }
+        this.currentUserSubject = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
       }
 
       _createClass(AuthenticationService, [{
@@ -2115,7 +2112,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
         key: "logout",
         value: function logout() {
           // remove user from local storage and set current user to null
-          localStorage.removeItem('currentUser');
+          localStorage.removeItem("currentUser");
           this.currentUserSubject.next(null);
         }
       }, {
@@ -2144,7 +2141,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
     AuthenticationService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({
       token: AuthenticationService,
       factory: AuthenticationService.ɵfac,
-      providedIn: 'root'
+      providedIn: "root"
     });
     /*@__PURE__*/
 
@@ -2152,7 +2149,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
       _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AuthenticationService, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
         args: [{
-          providedIn: 'root'
+          providedIn: "root"
         }]
       }], function () {
         return [{

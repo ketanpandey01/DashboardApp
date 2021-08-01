@@ -1015,14 +1015,12 @@ __webpack_require__.r(__webpack_exports__);
 class AuthenticationService {
     constructor(http) {
         this.http = http;
-        this.users = JSON.parse(localStorage.getItem('users')) || [];
-        let currentUserObj = localStorage.getItem('currentUser');
-        console.log('currnetUser', currentUserObj);
-        if (currentUserObj) {
-            console.log('inside', currentUserObj);
-            this.currentUserSubject = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](currentUserObj);
-            this.currentUser = this.currentUserSubject.asObservable();
-        }
+        this.users = JSON.parse(localStorage.getItem("users")) || [];
+        // let currentUserObj = localStorage.getItem("currentUser");
+        // console.log("currnetUser", currentUserObj);
+        // if(currentUserObj===)
+        this.currentUserSubject = new rxjs__WEBPACK_IMPORTED_MODULE_1__["BehaviorSubject"](JSON.parse(localStorage.getItem('currentUser')));
+        this.currentUser = this.currentUserSubject.asObservable();
     }
     get currentUserValue() {
         return this.currentUserSubject.value;
@@ -1047,7 +1045,7 @@ class AuthenticationService {
     }
     logout() {
         // remove user from local storage and set current user to null
-        localStorage.removeItem('currentUser');
+        localStorage.removeItem("currentUser");
         this.currentUserSubject.next(null);
     }
     error(message) {
@@ -1055,11 +1053,11 @@ class AuthenticationService {
     }
 }
 AuthenticationService.ɵfac = function AuthenticationService_Factory(t) { return new (t || AuthenticationService)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵinject"](_angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"])); };
-AuthenticationService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: AuthenticationService, factory: AuthenticationService.ɵfac, providedIn: 'root' });
+AuthenticationService.ɵprov = _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdefineInjectable"]({ token: AuthenticationService, factory: AuthenticationService.ɵfac, providedIn: "root" });
 /*@__PURE__*/ (function () { _angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵsetClassMetadata"](AuthenticationService, [{
         type: _angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"],
         args: [{
-                providedIn: 'root'
+                providedIn: "root",
             }]
     }], function () { return [{ type: _angular_common_http__WEBPACK_IMPORTED_MODULE_2__["HttpClient"] }]; }, null); })();
 
